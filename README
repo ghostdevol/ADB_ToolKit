@@ -1,0 +1,37 @@
+Code
+ADB-Tool/
+├── assets/firmware/brand/model/
+│   └── firmware.bin
+│   └── manifest.json
+├── index.html
+├── main.js
+├── node_modules/
+├── .gitignore
+└── README.md
+manifest.json structure:
+
+json
+{
+  "model": "mi4cs",
+  "version": "1.0.0",
+  "region": "US",
+  "timestamp": "2025-09-21T04:00:00Z",
+  "hash": "..."
+}
+🛠️ Requirements
+Node.js + Electron
+
+ADB installed and in system PATH
+
+Firmware and manifest files placed in assets/firmware/brand/model/
+
+🔒 License
+Legacy Runtime License (LRL-1.0) Copyright (c) 2025 Daniel Sielaff
+
+Permission is granted to the license holder (Daniel Sielaff) to use, modify, and extend this software for personal, professional, and legacy-grade development purposes.
+
+Redistribution, publication, or commercial use by third parties is strictly prohibited without explicit written consent from the license holder.
+
+This software is provided "as is", without warranty of any kind. Unauthorized use, replication, or reverse engineering is prohibited.
+
+This license applies to all code, assets, firmware structures, UI logic, and branded workflows contained within this repository.
