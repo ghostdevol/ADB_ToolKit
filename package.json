@@ -1,0 +1,15 @@
+{
+  "name": "ghosttech-adb-tool",
+  "version": "1.0.0",
+  "description": "Modular ADB unlock tool with firmware and manifest support",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "cheerio": "^1.1.2",
+    "electron": "^29.4.6"
+  },
+  "author": "Daniel Sielaff",
+  "license": "MIT"
+}

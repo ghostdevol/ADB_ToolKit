@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ghost_Tools PRO</title>
+  <style>
+    body { font-family: sans-serif; background: #111; color: #eee; padding: 2em; }
+    h1 { color: #0ff; }
+    select, button { padding: 0.5em 1em; margin: 0.5em 0; background: #333; color: #fff; border: none; cursor: pointer; }
+    #deviceModel { margin: 1em 0; font-weight: bold; color: #0f0; }
+    pre { background: #222; padding: 1em; white-space: pre-wrap; word-wrap: break-word; }
+  </style>
+</head>
+<body>
+  <img src="./assets/logo.png" alt="GhostTech by Ghostdevol Logo" />
+<h1>ADB-Tool</h1>
+  </div>
+
+  <div id="deviceModel">📱 Device: Not detected</div>
+
+  <label for="firmwareDropdown">Select Firmware:</label>
+  <select id="firmwareDropdown"></select>
+
+  <div>
+    <button id="frpBtn">Run FRP Unlock</button>
+    <button id="netBtn">Run Network Unlock</button>
+    <button id="manifestBtn">View Manifest</button>
+  </div>
+<button id="flashBtn" class="ghosttech-button">
+  🔧 Flash Firmware
+</button>
+
+<!-- Optional Modal -->
+  <div id="flashModal" class="ghosttech-modal hidden">
+  <div class="ghosttech-modal-content">
+    <h2>Flash Firmware</h2>
+    <p>select your firmware payload.</p>
+    <input type="file" id="firmwareUpload" accept=".zip,.bin,.img" />
+    <button onclick="handleFlash()">Confirm & Flash</button>
+    <button onclick="closeModal()">Cancel</button>
+  </div>
+  </div>
+
+  <pre id="manifestDisplay"></pre>
+
+  <script>
+    const { loadFirmware, getManifest, detectDeviceModel, runUnlockSequence } = require('./loader.js');
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const dropdown = document.getElementById('firmwareDropdown');
+      const deviceModelDisplay = document.getElementById('deviceModel');
+      const manifestDisplay = document.getElementById('manifestDisplay');
+
+      function populateFirmwareDropdown() {
+        const firmwareList = loadFirmware();
+        dropdown.innerHTML = firmwareList.map(f => `<option value="${f}">${f}</option>`).join('');
+      }
+
+      function autoDetectDevice() {
+        const model = detectDeviceModel();
+        if (model) {
+          deviceModelDisplay.textContent = `📱 Device: ${model}`;
+          for (let option of dropdown.options) {
+            if (option.value.toLowerCase().includes(model.toLowerCase())) {
+              option.selected = true;
+              break;
+            }
+          }
+        } else {
+          deviceModelDisplay.textContent = `📱 Device: Not detected`;
+        }
+      }
+
+      function runFRP() {
+        const selected = dropdown.value;
+        runUnlockSequence("FRP", selected);
+      }
+
+      function runNetworkUnlock() {
+        const selected = dropdown.value;
+        runUnlockSequence("NET", selected);
+      }
+
+      function viewManifest() {
+        const manifest = getManifest();
+        manifestDisplay.textContent = manifest ? JSON.stringify(manifest, null, 2) : 'No manifest found.';
+      }
+
+      populateFirmwareDropdown();
+      autoDetectDevice();
+
+      document.getElementById('frpBtn').addEventListener('click', runFRP);
+      document.getElementById('netBtn').addEventListener('click', runNetworkUnlock);
+      document.getElementById('manifestBtn').addEventListener('click', viewManifest);
+    });
+  </script>
+</body>
+</html>
